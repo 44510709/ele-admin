@@ -49,6 +49,9 @@ const mutations = {
 const actions = {
   generateRoutes({ commit }, roles) {
     return new Promise(resolve => {
+      // 向后端请求路由数据生成路由 或者 进行路由对比
+      //axios
+
       let accessedRoutes
       if (roles.includes('admin')) {
         accessedRoutes = asyncRoutes || []
