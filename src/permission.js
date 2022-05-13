@@ -10,7 +10,7 @@ NProgress.configure({ showSpinner: false }) // 进度条
 
 const whiteList = ['/login'] // 无重定向白名单
 
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // start progress bar
   NProgress.start()
 
@@ -35,6 +35,7 @@ router.beforeEach(async(to, from, next) => {
           //获取用户信息
           //注意：角色必须是对象数组！例如：['admin']或，['developer'，'editor']
           const { roles } = await store.dispatch('user/getInfo')
+          //mock测试返回值 roles :roles: Array(1) 0: "admin"
 
           // 根据角色生成可访问的路线图
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)

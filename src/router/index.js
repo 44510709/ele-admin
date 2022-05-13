@@ -69,18 +69,17 @@ export const asyncRoutes = [
     alwaysShow: true, //将始终显示根菜单
     name: 'Permission',
     meta: {
-      title: '权限测试页',
-      icon: 'password',
+      title: '系统管理',
+      icon: 'el-icon-s-tools',
       roles: ['admin', 'editor'] // 您可以在根导航中设置角色
     },
     children: [
       {
-        path: 'page',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
+        path: 'resourceManagement',
+        component: () => import('@/views/permission/resourceManagement'),
         meta: {
-          title: '页面权限',
-          roles: ['admin'] // or you can only set roles in sub nav
+          title: '资源管理',
+          icon: 'dashboard'
         }
       },
       {
@@ -88,7 +87,8 @@ export const asyncRoutes = [
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
-          title: '指令权限'
+          title: '指令权限',
+          icon: 'el-icon-thumb'
           // 如果不设置角色，则表示：此页面不需要权限
         }
       },
@@ -98,6 +98,7 @@ export const asyncRoutes = [
         name: 'RolePermission',
         meta: {
           title: '角色管理',
+          icon: 'el-icon-user',
           roles: ['admin']
         }
       }
@@ -118,31 +119,31 @@ export const asyncRoutes = [
         path: 'menu1',
         component: () => import('@/views/nested/menu1/index'), // Parent router-view
         name: 'Menu1',
-        meta: { title: 'Menu1' },
+        meta: { title: 'Menu1', icon: 'dashboard' },
         children: [
           {
             path: 'menu1-1',
             component: () => import('@/views/nested/menu1/menu1-1'),
             name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
+            meta: { title: 'Menu1-1', icon: 'dashboard' }
           },
           {
             path: 'menu1-2',
             component: () => import('@/views/nested/menu1/menu1-2'),
             name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
+            meta: { title: 'Menu1-2' , icon: 'dashboard'},
             children: [
               {
                 path: 'menu1-2-1',
                 component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
                 name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
+                meta: { title: 'Menu1-2-1', icon: 'dashboard' }
               },
               {
                 path: 'menu1-2-2',
                 component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
                 name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
+                meta: { title: 'Menu1-2-2', icon: 'dashboard' }
               }
             ]
           },
@@ -150,14 +151,14 @@ export const asyncRoutes = [
             path: 'menu1-3',
             component: () => import('@/views/nested/menu1/menu1-3'),
             name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
+            meta: { title: 'Menu1-3', icon: 'dashboard' }
           }
         ]
       },
       {
         path: 'menu2',
         component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
+        meta: { title: 'menu2', icon: 'dashboard' }
       }
     ]
   },
@@ -188,7 +189,7 @@ const router = createRouter()
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
   const newRouter = createRouter()
-  router.matcher = newRouter.matcher // reset router
+  router.matcher = newRouter.matcher // 重置路由器
 }
 
 export default router

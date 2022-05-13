@@ -35,6 +35,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
+        //获取token
         commit('SET_TOKEN', data.token)
         setToken(data.token)
         resolve()
@@ -47,7 +48,18 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
+      //getInfo(state.token) state.token 根据token获取角色信息
+      getInfo(state.token).then(response => {//获取角色和权限按钮
+
+        //用来测试写死的返回角色获取动态路由对比数据
+        // const data =  { 
+        //   roles:['admin'],
+        //   name:'1',
+        //   avatar:'1',
+        //   introduction:'1'
+        // }
+
+        // //这里是接口返回真实数据
         const { data } = response
 
         if (!data) {
@@ -81,7 +93,7 @@ const actions = {
         removeToken()
         resetRouter()
 
-        // reset visited views and cached views
+        // 重置已访问视图和缓存视图
         // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
         dispatch('tagsView/delAllViews', null, { root: true })
 
@@ -102,7 +114,7 @@ const actions = {
     })
   },
 
-  // dynamically modify permissions
+  // 动态修改权限
   async changeRoles({ commit, dispatch }, role) {
     const token = role + '-token'
 
@@ -113,12 +125,12 @@ const actions = {
 
     resetRouter()
 
-    // generate accessible routes map based on roles
+    // 根据角色生成可访问的路线图
     const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })
-    // dynamically add accessible routes
+    // 动态添加可访问的路由
     router.addRoutes(accessRoutes)
 
-    // reset visited views and cached views
+    // 重置已访问视图和缓存视图
     dispatch('tagsView/delAllViews', null, { root: true })
   }
 }

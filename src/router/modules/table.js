@@ -9,20 +9,20 @@ const tableRouter = {
   name: 'Table',
   meta: {
     title: 'Table',
-    icon: 'table'
+    icon: 'el-icon-film'
   },
   children: [
     {
       path: 'table',
       name: 'Table',
       component: () => import('@/views/table/index'),
-      meta: { title: '表单'}
+      meta: { title: '表单',icon: 'el-icon-film'}
     },
     {
       path: 'drag-table',
       component: () => import('@/views/table/drag-table'),
       name: 'DragTable',
-      meta: { title: '拖拽表单' }
+      meta: { title: '拖拽表单' ,icon: 'el-icon-film'}
     },
     
   ]
