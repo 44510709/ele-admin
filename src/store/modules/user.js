@@ -5,7 +5,7 @@ import router, { resetRouter } from '@/router'
 const state = {
   token: getToken(),
   name: '',
-  avatar: '',
+  avatar: '',//avatar头像
   introduction: '',
   roles: []
 }
@@ -77,7 +77,7 @@ const actions = {
 
         commit('SET_ROLES', roles) //permission.js 解构的值 是roles 所以字段名要统一
         commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
+        commit('SET_AVATAR', avatar)//avatar头像
         commit('SET_INTRODUCTION', introduction)
         resolve(data)
       }).catch(error => {
