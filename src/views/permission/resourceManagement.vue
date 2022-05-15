@@ -385,6 +385,12 @@ export default {
     },
     /** 转换菜单数据结构 */
     normalizer(node) {
+      //奖获取的菜单格式转换成tree可以展示的数据
+      // return {
+      //   id: node.menuId,
+      //   label: node.menuName,
+      //   children: node.children,
+      // };
       if (node.children && !node.children.length) {
         delete node.children;
       }
