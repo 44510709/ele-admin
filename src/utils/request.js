@@ -50,7 +50,7 @@ service.interceptors.response.use(
     const res = response.data
 
     // 如果自定义代码不是200，则判断为错误。
-    if (res.code !== 20000) {
+    if (res.code !== 200) {
       Message({
         message: res.message || 'Error',
         type: 'error',

@@ -22,10 +22,15 @@
       style="width: 100%"
       :default-expand-all="false"
       row-key="id"
-      :tree-props="{ children: 'children' }"
+      :tree-props="{ children: 'subMenus' }"
     >
-      <el-table-column prop="itemCode" label="事项编码"> </el-table-column>
-      <el-table-column prop="approveName" label="事项名称"> </el-table-column>
+      <el-table-column prop="id" label="编号"> </el-table-column>
+      <el-table-column prop="name" label="名称"> </el-table-column>
+      <el-table-column prop="css" label="图标"> </el-table-column>
+      <el-table-column prop="menuType" label="类型"> </el-table-column>
+      <el-table-column prop="path" label="地址"> </el-table-column>
+      <el-table-column prop="type" label="平台"> </el-table-column>
+      <el-table-column prop="name" label="操作"> </el-table-column>
       <el-table-column
         prop="apprStatusStr"
         label="配置的环节"
@@ -280,6 +285,8 @@
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import IconSelect from "@/components/IconSelect";
+import { getMenus } from "@/api/resource";
+import { handleTree } from "@/utils";
 
 export default {
   name: "ResourceManagement",
@@ -348,21 +355,30 @@ export default {
   },
   mounted() {
     this.loadItemData();
+    this.getList();
   },
+  // created() {},
   methods: {
+    /** 查询菜单列表 */
+    getList() {
+      getMenus({ type: "PC" }).then((res) => {
+        this.loading = true;
+        res.data.sort((a, b) => a.id - b.id);
+        console.log(res.data);
+        this.apprItemData = res.data;
+      });
+    },
     // 添加
     addMenu() {
       this.reset();
       this.open = true;
       this.getTreeselect();
       this.title = "添加菜单";
-      console.log(this.form);
     },
     //table数据
     loadItemData() {
-      var pageSize = this.pageSize;
-      var currentPage = this.currentPage;
-      console.log("pageSize:" + pageSize + ",currentPage:" + currentPage);
+      // var pageSize = this.pageSize;
+      // var currentPage = this.currentPage;
       setTimeout(() => {
         this.loading = false;
       }, 1000);
@@ -379,9 +395,18 @@ export default {
       this.$set(this.form, "tb", name);
       console.log(this.form);
     },
-    /** 查询菜单列表 */
-    getList() {
-      this.loading = true;
+    /** 查询菜单下拉树结构 */
+    getTreeselect() {
+      getMenus().then((res) => {
+        this.menuOptions = [];
+        const menu = {
+          id: "-1",
+          name: "主类目",
+          subMenus: [],
+        };
+        menu.subMenus = res.data;
+        this.menuOptions.push(menu);
+      });
     },
     /** 转换菜单数据结构 */
     normalizer(node) {
@@ -391,18 +416,29 @@ export default {
       //   label: node.menuName,
       //   children: node.children,
       // };
-      if (node.children && !node.children.length) {
-        delete node.children;
+      if (node.subMenus && node.subMenus.length > 0) {
+        node.subMenus.forEach((item) => {
+          if (item.subMenus && item.subMenus.length > 0) {
+            item.subMenus.forEach((it) => {
+              if (it.subMenus && it.subMenus.length > 0) {
+              } else {
+                delete it.subMenus;
+              }
+            });
+          } else {
+            delete item.subMenus;
+          }
+        });
+      }
+      if (node.subMenus && !node.subMenus.length) {
+        delete node.subMenus;
       }
       return {
-        id: node.menuId,
-        label: node.menuName,
-        children: node.children,
+        id: node.id,
+        label: node.name || "主类目",
+        children: node.subMenus,
       };
     },
-    /** 查询菜单下拉树结构 */
-    getTreeselect() {},
-
     // 取消按钮
     cancel() {
       this.open = false;

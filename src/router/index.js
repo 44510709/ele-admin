@@ -131,7 +131,7 @@ export const asyncRoutes = [
             path: 'menu1-2',
             component: () => import('@/views/nested/menu1/menu1-2'),
             name: 'Menu1-2',
-            meta: { title: 'Menu1-2' , icon: 'dashboard'},
+            meta: { title: 'Menu1-2', icon: 'dashboard' },
             children: [
               {
                 path: 'menu1-2-1',
@@ -173,7 +173,7 @@ export const asyncRoutes = [
       }
     ]
   },
-  
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

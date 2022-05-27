@@ -5,7 +5,7 @@ import router, { resetRouter } from '@/router'
 const state = {
   token: getToken(),
   name: '',
-  avatar: '',//avatar头像
+  avatar: '',
   introduction: '',
   roles: []
 }
@@ -34,10 +34,11 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
+        console.log(response)
         const { data } = response
         //获取token
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+        commit('SET_TOKEN', data.access_token)
+        setToken(data.access_token)
         resolve()
       }).catch(error => {
         reject(error)
@@ -62,23 +63,21 @@ const actions = {
         // //这里是接口返回真实数据
         const { data } = response
 
+        data.roles = ['admin'] //permission.js 解构的值 是roles 所以字段名要统一
         if (!data) {
           reject('Verification failed, please Login again.')
         }
-
-        
-        //permission.js 解构的值 是roles 所以字段名要统一
-        const { roles, name, avatar, introduction } = data 
+        const { roles, username } = data
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
           reject('getInfo: roles must be a non-null array!')
         }
 
-        commit('SET_ROLES', roles) //permission.js 解构的值 是roles 所以字段名要统一
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)//avatar头像
-        commit('SET_INTRODUCTION', introduction)
+        commit('SET_ROLES', roles)
+        commit('SET_NAME', username)
+        commit('SET_AVATAR', 'avatar')
+        commit('SET_INTRODUCTION', 'introduction')
         resolve(data)
       }).catch(error => {
         reject(error)
