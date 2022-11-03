@@ -6,7 +6,7 @@ import { getToken } from '@/utils/auth'
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url=基本url+请求url
-  //withCredentials:true，//跨域请求时发送cookie
+  // withCredentials:true，// 跨域请求时发送cookie
   timeout: 5000 // request timeout
 })
 
@@ -17,12 +17,12 @@ service.interceptors.request.use(
     config.headers['client_id'] = 'webApp'
     config.headers['client_secret'] = 'webApp'
 
-    //这里是携带令牌的
+    // 这里是携带令牌的
     if (store.getters.token) {
-      //让每个请求都携带令牌
-      //['X-Token']是一个自定义的头密钥
-      //请根据实际情况修改
-      //config.headers['X-Token'] = getToken()
+      // 让每个请求都携带令牌
+      // ['X-Token']是一个自定义的头密钥
+      // 请根据实际情况修改
+      config.headers['X-Token'] = getToken()
       config.headers['Authorization'] = 'Bearer ' + getToken()
 
     }
@@ -35,7 +35,7 @@ service.interceptors.request.use(
   }
 )
 
-//响应拦截器
+// 响应拦截器
 service.interceptors.response.use(
   /**
     *如果您想获取http信息，如标题或状态
@@ -50,7 +50,7 @@ service.interceptors.response.use(
     const res = response.data
 
     // 如果自定义代码不是200，则判断为错误。
-    if (res.code !== 200) {
+    if (res.code !== 20000) {
       Message({
         message: res.message || 'Error',
         type: 'error',

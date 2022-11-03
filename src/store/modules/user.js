@@ -37,8 +37,8 @@ const actions = {
         console.log(response)
         const { data } = response
         //获取token
-        commit('SET_TOKEN', data.access_token)
-        setToken(data.access_token)
+        commit('SET_TOKEN', data.token)
+        setToken(data.token)
         resolve()
       }).catch(error => {
         reject(error)

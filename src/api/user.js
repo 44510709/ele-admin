@@ -3,35 +3,23 @@ import request from '@/utils/request'
 //登陆
 export function login(data) {
   return request({
-    url: '/api-auth/oauth/user/token',
+    url: '/vue-admin-template/user/login',
     method: 'post',
     data
   })
 }
 
-//获取用户信息
-export function getInfo() {
+export function getInfo(token) {
   return request({
-    url: '/api-auth/oauth/current/user',
-    method: 'get'
+    url: '/vue-admin-template/user/info',
+    method: 'get',
+    params: { token }
   })
 }
 
-//查询当前用户菜单
-export function getMenus() {
-  return request({
-    url: '/api-user/menus/current',
-    method: 'get'
-  })
-}
-
-
-
-
-//移除token
 export function logout() {
   return request({
-    url: '/api-auth/oauth/remove/token',
+    url: '/vue-admin-template/user/logout',
     method: 'post'
   })
 }

@@ -51,25 +51,26 @@ const mutations = {
 const actions = {
   generateRoutes({ commit }, roles) {
     return new Promise(resolve => {
-      // 向后端请求路由数据生成路由 或者 进行路由对比
-      getMenus().then((res) => {
-        const menusData = res.data;
-        //获取tree结构路由数据  改为路由
-        let menus = convertRouter(menusData)
-        menus.push({ path: '*', redirect: '/404', hidden: true })
-        commit('SET_ROUTES', menus)
-        resolve(menus)
-      });
+      // // 向后端请求路由数据生成路由 或者 进行路由对比
+      // getMenus().then((res) => {
+      //   const menusData = res.data;
+      //   //获取tree结构路由数据  改为路由
+      //   let menus = convertRouter(menusData)
+      //   menus.push({ path: '*', redirect: '/404', hidden: true })
+      //   commit('SET_ROUTES', menus)
+      //   resolve(menus)
+      // });
 
-      // // 通过角色对比路由
-      // let accessedRoutes
-      // if (roles.includes('admin')) {
-      //   accessedRoutes = asyncRoutes || []
-      // } else {
-      //   accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-      // }
-      // commit('SET_ROUTES', accessedRoutes)
-      // resolve(accessedRoutes)
+      // 本地测试数据 通过角色对比路由
+      let accessedRoutes
+      if (roles.includes('admin')) {
+        accessedRoutes = asyncRoutes || []
+      } else {
+        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
+      }
+      commit('SET_ROUTES', accessedRoutes)
+      resolve(accessedRoutes)
+
     })
   }
 }

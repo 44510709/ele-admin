@@ -32,12 +32,12 @@ router.beforeEach(async (to, from, next) => {
         next()
       } else {
         try {
-          //获取用户信息
-          //注意：角色必须是对象数组！例如：['admin']或，['developer'，'editor']
+          // 获取用户信息
+          // 注意：角色必须是对象数组！例如：['admin']或，['developer'，'editor']
           const { roles } = await store.dispatch('user/getInfo')
-          //mock测试返回值 roles :roles: Array(1) 0: "admin"
+          // mock测试返回值 roles :roles: Array(1) 0: "admin"
 
-          // 根据角色生成可访问的路线图
+          // 根据角色生成可访问的路线图 store/permission/generateRoutes
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
           console.log(accessRoutes)
           // 动态添加可访问的路由
